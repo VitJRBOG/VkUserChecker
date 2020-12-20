@@ -2,15 +2,21 @@ package cli
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/VitJRBOG/test_vk_user_check/datamanager"
+	"github.com/VitJRBOG/test_vk_user_check/filemanager"
 )
 
 // ShowCLI запрашивает у пользователя ввод данных через терминал,
 // передает эти данные в обработчик
 // и выводит в терминал полученную информацию
-func ShowCLI() {
-	outputUserData(datamanager.GetUserData(inputURLToUserPage()))
+func ShowCLI(cfgValues filemanager.Config, cfgFileWasCreated bool) {
+	if cfgFileWasCreated {
+		fmt.Println("File config.json has been created and have no data now.")
+		os.Exit(0)
+	}
+	outputUserData(datamanager.GetUserData(cfgValues, inputURLToUserPage()))
 }
 
 func inputURLToUserPage() string {
