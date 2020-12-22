@@ -65,7 +65,7 @@ func requestUserInfo(accessToken, userScreenname string) User {
 	if err != nil {
 		panic(err.Error())
 	}
-	return parseUserInfo(res)
+	return checkBirthdate(parseUserInfo(res))
 }
 
 func parseUserInfo(res []byte) User {
@@ -77,6 +77,13 @@ func parseUserInfo(res []byte) User {
 		panic(err.Error())
 	}
 	return users[0]
+}
+
+func checkBirthdate(user User) User {
+	if user.Birthdate == "" {
+		user.Birthdate = "NO DATA"
+	}
+	return user
 }
 
 // Subscription хранит информацию о статусе подписки пользователя на сообщества
