@@ -4,9 +4,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
+	"net/http"
 	"strconv"
 	"strings"
 
+	"github.com/PuerkitoBio/goquery"
 	govkapi "github.com/VitJRBOG/GoVkApi"
 	"github.com/VitJRBOG/test_vk_user_check/filemanager"
 )
@@ -15,11 +18,12 @@ import (
 func GetUserData(cfgValues filemanager.Config, urlToUserPage string) string {
 	var userData string
 	userInfo := requestUserInfo(cfgValues.AccessToken, extractScreenname(urlToUserPage))
+	accountCreationDate := requestAccountCreationDate(userInfo.ID)
 
 	userData = fmt.Sprintf("Full name: %v %v\n"+
 		"Birthdate: %v\n"+
 		"Account creation date: %v\n",
-		userInfo.FirstName, userInfo.LastName, userInfo.Birthdate, "NULL")
+		userInfo.FirstName, userInfo.LastName, userInfo.Birthdate, accountCreationDate)
 
 	for _, communityInfo := range cfgValues.Communities {
 		isMember := checkCommunitySubscription(cfgValues.AccessToken, userInfo.ID, communityInfo.ID)
@@ -107,10 +111,35 @@ func parseSubscriptionInfo(res []byte) Subscription {
 	return subscription
 }
 
-// func loadHTML() {
+func requestAccountCreationDate(userID int) string {
+	return extractAccountCreationDate(requestHTML("https://vk.com/foaf.php?id=" + strconv.Itoa(userID)))
+}
 
-// }
+func requestHTML(url string) *goquery.Document {
+	res, err := http.Get(url)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer res.Body.Close()
+	if res.StatusCode != 200 {
+		log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+	}
+	doc, err := goquery.NewDocumentFromReader(res.Body)
+	if err != nil {
+		panic(err.Error())
+	}
 
-// func parseHTML() {
+	return doc
+}
 
-// }
+func extractAccountCreationDate(doc *goquery.Document) string {
+
+	ret, err := doc.Html()
+	if err != nil {
+		panic(err.Error())
+	}
+
+	tagPos := strings.Index(ret, "<ya:created dc:date=")
+
+	return ret[tagPos+21 : tagPos+31]
+}
