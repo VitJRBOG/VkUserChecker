@@ -8,8 +8,3 @@ import (
 func main() {
 	cli.ShowCLI(filemanager.GetConfig())
 }
-
-// func test() {
-// 	cfg, _ := filemanager.GetConfig()
-// 	fmt.Println(datamanager.GetUserData(cfg, "https://vk.com/id1"))
-// }
