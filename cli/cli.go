@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/VitJRBOG/test_vk_user_check/datamanager"
-	"github.com/VitJRBOG/test_vk_user_check/filemanager"
+	"github.com/VitJRBOG/VkUserChecker/datamanager"
+	"github.com/VitJRBOG/VkUserChecker/filemanager"
 )
 
 // ShowCLI запрашивает у пользователя ввод данных через терминал,

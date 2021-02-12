@@ -11,7 +11,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	govkapi "github.com/VitJRBOG/GoVkApi"
-	"github.com/VitJRBOG/test_vk_user_check/filemanager"
+	"github.com/VitJRBOG/VkUserChecker/filemanager"
 )
 
 // GetUserData получает с серверов ВК данные о пользователе

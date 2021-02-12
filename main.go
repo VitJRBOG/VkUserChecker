@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/VitJRBOG/test_vk_user_check/cli"
-	"github.com/VitJRBOG/test_vk_user_check/filemanager"
+	"github.com/VitJRBOG/VkUserChecker/cli"
+	"github.com/VitJRBOG/VkUserChecker/filemanager"
 )
 
 func main() {
