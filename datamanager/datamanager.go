@@ -10,7 +10,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	govkapi "github.com/VitJRBOG/GoVkApi"
+	govkapi "github.com/VitJRBOG/GoVkApi/v2"
 	"github.com/VitJRBOG/VkUserChecker/filemanager"
 )
 
@@ -61,7 +61,7 @@ func requestUserInfo(accessToken, userScreenname string) User {
 		"fields":   "bdate",
 		"v":        "5.126",
 	}
-	res, err := govkapi.SendRequestVkApi(accessToken, "users.get", v)
+	res, err := govkapi.Method("users.get", accessToken, v)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -98,7 +98,7 @@ func checkCommunitySubscription(accessToken string, userID, communityID int) boo
 		"extended": "1",
 		"v":        "5.126",
 	}
-	res, err := govkapi.SendRequestVkApi(accessToken, "groups.isMember", v)
+	res, err := govkapi.Method("groups.isMember", accessToken, v)
 	if err != nil {
 		panic(err.Error())
 	}
